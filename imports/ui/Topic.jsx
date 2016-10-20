@@ -109,10 +109,10 @@ export default class Topic extends Component {
 
     renderStatistic() {
         return (
-                <span style={{margin:"0 0 0 10px"}}>
-                    <span> <Badge>讚 {this.props.topic.seconded}</Badge></span>
-                    <span> | <Badge style={this.renderLightBulb('limegreen')}>接受 {this.props.topic.accept}</Badge></span>
-                    <span> <Badge style={this.renderLightBulb('#C9302C')}>打槍 {this.props.topic.suck}</Badge></span>
+                <span className="statistic">
+                    <span> <Badge>附議 {this.props.topic.seconded}</Badge></span>
+                    <span> | <Badge style={this.renderLightBulb('MediumSeaGreen')}>接受 {this.props.topic.accept}</Badge></span>
+                    <span> <Badge style={this.renderLightBulb('#C9605C')}>打槍 {this.props.topic.suck}</Badge></span>
                 </span>
                );
     }
@@ -128,56 +128,67 @@ export default class Topic extends Component {
     renderStatusButton() {
         if(this.props.topic.replied === 1) {
             if(this.props.username === 'admin') {
-                return (<Button bsSize="xsmall" disabled>Done</Button>);
+                return (<Button bsSize="xsmall" title="已經回覆" disabled>Done</Button>);
             }
         }
 
         if(this.props.topic.replied === 0) {
-            return (<Button bsSize="xsmall" disabled>Pending</Button>);
+            return (<Button bsSize="xsmall" title="等待回覆中..." disabled>等待回覆</Button>);
         }
 
         const acceptindex = this.props.topic.acceptlist.indexOf(this.props.username);
         const suckindex = this.props.topic.sucklist.indexOf(this.props.username);
         if(acceptindex !== -1) {
-            return (<Button bsSize="xsmall" bsStyle="success" onClick={this.comment.bind(this)}>接受</Button>);
+            return (<Button bsSize="xsmall" bsStyle="success" title="目前為「接受」，點擊後切換為「打槍」" onClick={this.comment.bind(this)}>接受</Button>);
         }
         else if(suckindex !== -1) {
-            return (<Button bsSize="xsmall" bsStyle="danger" onClick={this.comment.bind(this)}>打槍</Button>);
+            return (<Button bsSize="xsmall" bsStyle="danger" title="目前為「打槍」，點擊後切換為「考慮」" onClick={this.comment.bind(this)}>打槍</Button>);
         }
 
-        return (<Button bsSize="xsmall" onClick={this.comment.bind(this)}>考慮</Button>);
+        return (<Button bsSize="xsmall" title="目前為「考慮」，點擊後切換為「接受」" onClick={this.comment.bind(this)}>考慮</Button>);
     }
 
     renderAction() {
         if(this.props.username === 'admin') {
-            return 'Reply';
+            return (<button className="noborderbutton" title="回覆" onClick={this.secondthistopic.bind(this)}>
+                        <img className="imggood" src={'/reply.png'} />
+                    </button>);
         }
 
         if(this.props.topic.sponsor === this.props.username) {
-            return 'Del';
+            if(this.props.topic.replied === 1) {
+                return (<button className="noborderbutton" title="已有回應、無法刪除">
+                            <img className="imggood" src={'/nodelete.png'} />
+                        </button>);
+            }
+            return (<button className="noborderbutton" title="刪除" onClick={this.secondthistopic.bind(this)}>
+                        <img className="imggood" src={'/delete.png'} />
+                    </button>);
         }
 
         if(this.props.topic.secondlist.indexOf(this.props.username) !== -1) {
-            return (<span><img className="imggood" src={'/second.png'} /></span>);
+            return (<button className="noborderbutton" title="取消附議" onClick={this.secondthistopic.bind(this)}>
+                        <img className="imggood" src={'/second.png'} />
+                    </button>);
         }
 
-        return (<span><img className="imggood_opacity" src={'/second.png'} /></span>);
+        return (<button className="noborderbutton" title="附議" onClick={this.secondthistopic.bind(this)}>
+                    <img className="imggood_opacity" src={'/second.png'} />
+                </button>);
     }
 
     render() {
         return (
             <li>
-                <span>
+                <div className="detail">
                     {this.renderDetail()}
-                </span>
+                </div>
 
                 {this.renderStatistic()}
                 
                 <span className="buttongroup">
                     {this.renderStatusButton()}
-                    <button className="noborderbutton" onClick={this.secondthistopic.bind(this)}>
-                        {this.renderAction()}
-                    </button>
+                    {this.renderAction()}
                 </span>
       		</li>
     	);

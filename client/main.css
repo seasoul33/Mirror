@@ -108,6 +108,14 @@ ol {
     padding: 0;
     background: white;
 }
+
+.detail {
+    margin:0 0 0.8em 0;
+}
+
+.statistic {
+    margin:0 0 0 1.5em;
+}
  
 .buttongroup {
     float: right;
@@ -125,6 +133,7 @@ li {
     list-style: inside upper-roman;
     padding: 15px;
     border-bottom: #eee solid 1px;
+    overflow: auto;
 }
  
 li .text {
@@ -488,7 +497,7 @@ font-weight:400;
 line-height:1.42857143;
 text-align:center;
 white-space:nowrap;
-/*vertical-align:middle;*/
+vertical-align:middle;
 -ms-touch-action:manipulation;
 touch-action:manipulation;
 cursor:pointer;
