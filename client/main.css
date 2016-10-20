@@ -117,11 +117,7 @@ ol {
     border: none;
     background: none;
     vertical-align:top;
-    margin-left: 5px;
-}
-
-.opacity {
-    opacity:0.3;
+    margin: 0 0 0 5px;
 }
  
 li {
@@ -156,9 +152,15 @@ header .hide-completed {
     margin-left: 5px;
 }
 
-.test {
-    /*background: transparent;*/
-    /*opacity:0.1;*/
+.imggood {
+    width:20px;
+    cursor:pointer;
+}
+
+.imggood_opacity {
+    opacity:0.3;
+    width:20px;
+    cursor:pointer;
 }
  
 @media (max-width: 600px) {

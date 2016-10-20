@@ -109,7 +109,7 @@ export default class Topic extends Component {
 
     renderStatistic() {
         return (
-                <span style={{"margin-left":"10px"}}>
+                <span style={{margin:"0 0 0 10px"}}>
                     <span> <Badge>讚 {this.props.topic.seconded}</Badge></span>
                     <span> | <Badge style={this.renderLightBulb('limegreen')}>接受 {this.props.topic.accept}</Badge></span>
                     <span> <Badge style={this.renderLightBulb('#C9302C')}>打槍 {this.props.topic.suck}</Badge></span>
@@ -158,10 +158,10 @@ export default class Topic extends Component {
         }
 
         if(this.props.topic.secondlist.indexOf(this.props.username) !== -1) {
-            return (<span><img src={'/second.png'} width="20px" /></span>);
+            return (<span><img className="imggood" src={'/second.png'} /></span>);
         }
 
-        return (<span><img className="opacity" src={'/second.png'} width="20px" /></span>);
+        return (<span><img className="imggood_opacity" src={'/second.png'} /></span>);
     }
 
     render() {
