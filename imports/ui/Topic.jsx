@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Badge, Button, Tooltip, Popover, OverlayTrigger } from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
+import TagsInput from 'react-tagsinput'
 import { Topics } from '../api/topics.js';
 
 import Form from './Form.jsx';
@@ -40,7 +41,7 @@ export default class Topic extends Component {
                             }
                          );
         }
-  	}
+    }
 
     comment() {
         if(this.props.username === 'admin') {
@@ -90,6 +91,10 @@ export default class Topic extends Component {
         return;
     }
 
+    handleTagChange(tags) {
+        Topics.update(this.props.topic._id, { $set: { tags: tags} });
+    }
+    
     renderDetail() {
         const tooltip = (<Tooltip id={'tip'+this.props.topic._id}>{this.props.topic.description}</Tooltip>);
         const popover = (<Popover id={'pop'+this.props.topic._id} title="回應">{this.props.topic.anwser}</Popover>);
@@ -177,12 +182,15 @@ export default class Topic extends Component {
                 </button>);
     }
 
+
     render() {
         return (
             <li>
                 <div className="detail">
                     {this.renderDetail()}
                 </div>
+
+                <TagsInput value={this.props.topic.tags} onChange={this.handleTagChange.bind(this)} />
 
                 {this.renderStatistic()}
                 

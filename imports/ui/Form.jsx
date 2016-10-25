@@ -1,11 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
+
 import { Meteor } from 'meteor/meteor';
 import { Topics } from '../api/topics.js';
  
 // Topic component - represents a single topic item
 export default class Form extends Component {
-  	 handleSubmit(event) {
+    handleSubmit(event) {
         event.preventDefault();
 
         if(Meteor.user()) {
@@ -32,10 +33,13 @@ export default class Form extends Component {
                 }
                 const description = ReactDOM.findDOMNode(this.refs.descInput).value.trim();
                 const sponsor = Meteor.user().username;
+                const tags = ReactDOM.findDOMNode(this.refs.tagInput).value.trim().split(' ');
+                console.log(tags);
 
                 Topics.insert({
                     title,
                     description,
+                    tags,
                     raisedAt: new Date(), // current time
                     sponsor,
                     seconded: 1,
@@ -51,6 +55,7 @@ export default class Form extends Component {
                 // Clear form
                 ReactDOM.findDOMNode(this.refs.titleInput).value = '';
                 ReactDOM.findDOMNode(this.refs.descInput).value = '';
+                ReactDOM.findDOMNode(this.refs.tagInput).value = '';
             }
         }
     }
@@ -86,6 +91,12 @@ export default class Form extends Component {
                             placeholder="Type to add a new topic"
                             required
                         /><br/>
+                        標籤:<br/>
+                        <input
+                            type="text"
+                            ref="tagInput"
+                            placeholder="Type to add tags"
+                        /><br/>
                         描述:<br/>
                         <textarea
                             type="text"
@@ -97,12 +108,12 @@ export default class Form extends Component {
                 </div>
             );
         }
-  	}
+    }
 }
  
 Form.propTypes = {
-  	// This component gets the topic to display through a React prop.
-  	// We can use propTypes to indicate it is required
+    // This component gets the topic to display through a React prop.
+    // We can use propTypes to indicate it is required
   	topic: PropTypes.object.isRequired,
     username: PropTypes.string.isRequired,
 };
