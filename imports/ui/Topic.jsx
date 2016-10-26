@@ -182,6 +182,21 @@ export default class Topic extends Component {
                 </button>);
     }
 
+    renderTags () {
+        if(this.props.topic.sponsor === this.props.username) {
+            return (<TagsInput value={this.props.topic.tags} 
+                        onChange={this.handleTagChange.bind(this)} 
+                        removeKeys={[]}
+                    />);
+        }
+        else {
+            return (<TagsInput value={this.props.topic.tags} 
+                        onChange={this.handleTagChange.bind(this)} 
+                        inputProps={{className: 'react-tagsinput-input', placeholder:''}} 
+                        disabled
+                    />);
+        }
+    }
 
     render() {
         return (
@@ -190,7 +205,7 @@ export default class Topic extends Component {
                     {this.renderDetail()}
                 </div>
 
-                <TagsInput value={this.props.topic.tags} onChange={this.handleTagChange.bind(this)} />
+                {this.renderTags()}
 
                 {this.renderStatistic()}
                 
