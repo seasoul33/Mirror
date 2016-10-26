@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
+import { Button, Modal } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 
@@ -15,9 +16,7 @@ import Switch from 'react-toggle-switch';
 class App extends Component {
     constructor() {
         super();
-        this.state = {tags:[], sort_by_time:false};
-        this.style_enabled = {color:'black', opacity:1};
-        this.style_disabled = {color:'gray', opacity:0.5};
+        this.state = {tags:[], sort_by_time:false, showModal:false, topic:{}};
     }
     
     renderTopics() {
@@ -44,7 +43,7 @@ class App extends Component {
             // console.log(fileteredTopics);
 
             return fileteredTopics.map((topic) => (
-                <Topic key={topic._id} topic={topic} username={this.props.currentUser.username} />
+                <Topic key={topic._id} topic={topic} username={this.props.currentUser.username} selecttopic={this.selecttopic.bind(this)} />
             ));
         }
         else {
@@ -52,12 +51,15 @@ class App extends Component {
         }
     }
 
+    selecttopic(topic) {
+        if(this.props.currentUser) {
+            this.setState({topic,showModal:true});
+        }
+    }
+
     renderForm() {
         if(this.props.currentUser) {
-            if(this.props.currentUser.username === 'admin') {
-                return '';
-            }
-            return (<Form topic={{}} username={this.props.currentUser.username} />);
+            return (<Form topic={this.state.topic} username={this.props.currentUser.username} aftersubmit={this.closeModal.bind(this)} />);
         }
         else {
             return '';
@@ -74,12 +76,24 @@ class App extends Component {
     }
 
     toggleSwitchLabelStyle (labelnum){
+        const style_enabled = {color:'black', opacity:1};
+        const style_disabled = {color:'gray', opacity:0.5};
         if(labelnum === 1) {
-            return this.state.sort_by_time ? this.style_disabled : this.style_enabled;
+            return this.state.sort_by_time ? style_disabled : style_enabled;
         }
         else {
-            return this.state.sort_by_time ? this.style_enabled : this.style_disabled;
+            return this.state.sort_by_time ? style_enabled : style_disabled;
         }
+    }
+
+    openModal() {
+        if(this.props.currentUser.username !== 'admin') {
+            this.setState({showModal:true});
+        }
+    }
+
+    closeModal() {
+        this.setState({showModal:false});
     }
  
     render() {
@@ -100,22 +114,25 @@ class App extends Component {
                         Search the tag...
                         <input type="text" placeholder="" onChange={this.searchtag.bind(this)} />
                     </div>
-                    <br/><br/><br/><br/>
-                    <div style={{height:'200px', width:'180px', padding:'0 0 0 0.8em'}}>
-                        預計把提出問題的表單拉到這裡變成點擊後浮現的視窗
-                    </div>
+                    <br/>
+                    <Button className="forminvokeButton" bsStyle="primary" bsSize="xsmall" onClick={this.openModal.bind(this)}>舉手發問</Button>
                 </div>
  
                 <div className="container-topic">
-                        <ol>
+                        <ul>
                             {this.renderTopics()}
-                        </ol>
+                        </ul>
+                </div>
 
-                        <br/><br/><br/>
+                <Modal show={this.state.showModal} onHide={this.closeModal.bind(this)}>
+ 
+                    <Modal.Body>
+                        <Button className="closeModal" bsSize="xsmall" onClick={this.closeModal.bind(this)}>Close</Button>
                         <div id="inputarea">
                             {this.renderForm()}
                         </div>
-                </div>
+                    </Modal.Body>
+                </Modal>
             </div>
         );
     }

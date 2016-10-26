@@ -11,7 +11,7 @@ import Form from './Form.jsx';
 export default class Topic extends Component {
     secondthistopic() {
   		if(this.props.username === 'admin') {
-            ReactDOM.render(<Form topic={this.props.topic} username={this.props.username}  />, document.getElementById('inputarea'));
+            this.props.selecttopic(this.props.topic);
             return;
         }
 
@@ -223,4 +223,5 @@ Topic.propTypes = {
   	// We can use propTypes to indicate it is required
   	topic: PropTypes.object.isRequired,
     username: PropTypes.string.isRequired,
+    selecttopic: PropTypes.func.isRequired,
 };

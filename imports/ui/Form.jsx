@@ -25,7 +25,6 @@ export default class Form extends Component {
                 ReactDOM.findDOMNode(this.refs.replyInput).value = '';
             }
             else {
-                // Find the text field via the React ref
                 const title = ReactDOM.findDOMNode(this.refs.titleInput).value.trim();
                 if(title.length === 0) {
                     ReactDOM.findDOMNode(this.refs.descInput).value = '';
@@ -34,7 +33,7 @@ export default class Form extends Component {
                 const description = ReactDOM.findDOMNode(this.refs.descInput).value.trim();
                 const sponsor = Meteor.user().username;
                 const tags = ReactDOM.findDOMNode(this.refs.tagInput).value.trim().split(' ');
-                console.log(tags);
+                // console.log(tags);
 
                 Topics.insert({
                     title,
@@ -57,6 +56,7 @@ export default class Form extends Component {
                 ReactDOM.findDOMNode(this.refs.descInput).value = '';
                 ReactDOM.findDOMNode(this.refs.tagInput).value = '';
             }
+            this.props.aftersubmit();
         }
     }
 
@@ -64,7 +64,7 @@ export default class Form extends Component {
     	if(this.props.username === 'admin') {
             return (
                 <div>
-                    <label className="label-form">回應</label>
+                    <label className="form-label">回應</label>
                     <form className="new-topic">
                         <label>標題:{this.props.topic.title}</label><br/><br/>
                         <label>描述:{this.props.topic.description}</label><br/><br/>
@@ -103,7 +103,7 @@ export default class Form extends Component {
                             ref="descInput"
                             placeholder="Type to give description"
                         /><br/>
-                        <button className="new-button" type="button" onClick={this.handleSubmit.bind(this)}>舉手發問</button>
+                        <button className="new-button" type="button" onClick={this.handleSubmit.bind(this)}>拋出問題</button>
                     </form>
                 </div>
             );
@@ -116,4 +116,5 @@ Form.propTypes = {
     // We can use propTypes to indicate it is required
   	topic: PropTypes.object.isRequired,
     username: PropTypes.string.isRequired,
+    aftersubmit: PropTypes.func.isRequired,
 };
