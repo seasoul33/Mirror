@@ -58,12 +58,58 @@ header {
     background-image: linear-gradient(to bottom, #d0edf5, #e1e5f0 100%);
     padding: 2.5% 2% 0% 2.5%;
     position: relative;
-    font-size: 1.5em;
+    /*font-size: 1.5em;*/
+}
+
+header .title {
+    font-size: 2em;
+}
+
+.switch {
+    border:1px solid #ccc;
+ /*   width:50px;
+    height:26px;*/
+    width: 2em;
+    height: 1em;
+    border-radius:0.8em;
+    cursor:pointer;
+    display:inline-block;
+    background: #6475AB;
+    /*float:left;*/
+    /*margin-top: 5px;*/
+}
+
+.switch-toggle {
+    border:1px solid #999;
+    /*box-shadow:1px 1px 1px #ccc;*/
+/*    width:25px;
+    height:24px;*/
+    width: 1em;
+    height: 0.9em;
+    left:0;
+    border-radius:0.8em;
+    background:#fff;
+    position:relative;
+    transition:left .1s ease-in-out;
+}
+
+.switch.on {
+    background:#cde69c;
+}
+
+.switch.on .switch-toggle {
+    /*left:23px;*/
+    left:0.9em;
+}
+
+.switch.disabled {
+    cursor:not-allowed;
 }
 
 .accountwrapper {
     text-align: right;
-    padding-bottom: 5px;
+    float: right;
+    /*padding-bottom: 10px;*/
 }
  
 #login-buttons {
