@@ -18,10 +18,33 @@ class App extends Component {
         super();
         this.state = {tags:[], sort_by_time:false, showModal:false, topic:{}};
     }
+
+    getTopicsIncludeTags(sourceTopics, targetTags, blur) {
+        if(blur === true) {
+            // match if contains
+            return targetTags.reduce(function(resultTopics, tag) {
+                                    return resultTopics.filter(function(topic) {
+                                                let result = false;
+                                                topic.tags.forEach(function(topictag) {
+                                                            if(topictag.indexOf(tag) !== -1) {
+                                                                result = true;
+                                                            }
+                                                        });
+                                                return result;
+                                            });
+                                    }, sourceTopics);
+            
+        }
+        else {
+        // absolute match
+            return targetTags.reduce(function(resultTopics, tag) {
+                                    return resultTopics.filter((topic) => (topic.tags.includes(tag)));
+                                }, sourceTopics);
+        }
+    }
     
     renderTopics() {
         if(this.props.currentUser) {
-            let fileteredTopics;
             let sortedTopics;
 
             if(this.state.sort_by_time === true) {
@@ -31,14 +54,7 @@ class App extends Component {
                 sortedTopics = this.props.topics;
             }
 
-            if(this.state.tags.length !== 0) {
-                fileteredTopics = this.state.tags.reduce( function(resultTopics, tag) {
-                                            return resultTopics.filter((topic) => (topic.tags.includes(tag)));
-                                        }, sortedTopics);
-            }
-            else {
-                fileteredTopics = [...sortedTopics];
-            }
+            const fileteredTopics = this.getTopicsIncludeTags(sortedTopics, this.state.tags, false);
 
             // console.log(fileteredTopics);
 
