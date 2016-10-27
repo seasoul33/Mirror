@@ -96,8 +96,9 @@ export default class Topic extends Component {
     }
     
     renderDetail() {
-        const tooltip = (<Tooltip id={'tip'+this.props.topic._id}>{this.props.topic.description}</Tooltip>);
-        const popover = (<Popover id={'pop'+this.props.topic._id} title="回應">{this.props.topic.anwser}</Popover>);
+        const timestring = '' + this.props.topic.raisedAt;
+        const tooltip = (<Tooltip id={'tip'+this.props.topic._id}>{this.props.topic.description} - {timestring}</Tooltip>);
+        const popover = (<Popover id={'pop'+this.props.topic._id} title={'回應 ('+this.props.topic.repliedTime+')'}>{this.props.topic.anwser}</Popover>);
         if(this.props.topic.replied === 0) {
             return (<OverlayTrigger overlay={tooltip} placement="top">
                         <strong>{this.props.topic.title}</strong>

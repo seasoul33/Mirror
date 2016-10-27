@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 
 import { Meteor } from 'meteor/meteor';
 import { Topics } from '../api/topics.js';
+
+const timeFormat='YYYY-MM-DD  HH:mm:ss';
  
 // Topic component - represents a single topic item
 export default class Form extends Component {
@@ -18,6 +20,7 @@ export default class Form extends Component {
 
                 Topics.update(this.props.topic._id, 
                                 { $set: { replied: 1,
+                                          repliedTime: moment().format(timeFormat),
                                           anwser: reply
                                         } 
                                 }
@@ -39,11 +42,12 @@ export default class Form extends Component {
                     title,
                     description,
                     tags,
-                    raisedAt: new Date(), // current time
+                    raisedAt: moment().format(timeFormat), // current time
                     sponsor,
                     seconded: 1,
                     secondlist: [sponsor],
                     replied: 0,
+                    repliedTime: '',
                     anwser: '',
                     accept: 0,
                     acceptlist: [],
