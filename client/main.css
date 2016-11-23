@@ -119,9 +119,6 @@ header .title {
     /*padding-bottom: 10px;*/
 }
  
-#login-buttons {
-    /*display: block;*/
-}
  
 h1 {
     font-size: 1.5em;
@@ -191,7 +188,9 @@ ol, ul {
 }
 
 .statistic {
-    margin:0 0 0 0.5em;
+    /*margin:0 0 0 0.5em;*/
+    display:block;
+    padding: 0 0 5px 5px;
 }
  
 .buttongroup, .closeModal {
@@ -228,14 +227,6 @@ li.checked .text {
 li.private {
     background: #eee;
     border-color: #ddd;
-}
- 
-/*header .hide-completed {
-    float: right;
-}*/
- 
-.toggle-private {
-    margin-left: 5px;
 }
 
 .imggood {
