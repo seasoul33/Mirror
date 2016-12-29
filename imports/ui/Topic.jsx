@@ -206,7 +206,6 @@ export default class Topic extends Component {
                     {this.renderDetail()}
                 </div>
 
-
                 {this.renderStatistic()}
                 {this.renderTags()}
                 
