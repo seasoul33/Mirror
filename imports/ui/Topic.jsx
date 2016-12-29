@@ -206,9 +206,8 @@ export default class Topic extends Component {
                     {this.renderDetail()}
                 </div>
 
-                {this.renderTags()}
-
                 {this.renderStatistic()}
+                {this.renderTags()}
                 
                 <span className="buttongroup">
                     {this.renderStatusButton()}

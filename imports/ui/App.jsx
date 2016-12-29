@@ -54,7 +54,10 @@ class App extends Component {
                 sortedTopics = this.props.topics;
             }
 
-            const fileteredTopics = this.getTopicsIncludeTags(sortedTopics, this.state.tags, false);
+            // read preferred tag from user profile
+            // then combine preferred tag & input tag(this.state.tags) to filter
+
+            const fileteredTopics = this.getTopicsIncludeTags(sortedTopics, this.state.tags, true);
 
             // console.log(fileteredTopics);
 
@@ -133,7 +136,7 @@ class App extends Component {
                     <br/>
                     <Button className="forminvokeButton" bsStyle="primary" bsSize="xsmall" onClick={this.openModal.bind(this)}>舉手發問</Button>
                 </div>
- 
+     
                 <div className="container-topic">
                         <ul>
                             {this.renderTopics()}
@@ -141,7 +144,6 @@ class App extends Component {
                 </div>
 
                 <Modal show={this.state.showModal} onHide={this.closeModal.bind(this)}>
- 
                     <Modal.Body>
                         <Button className="closeModal" bsSize="xsmall" onClick={this.closeModal.bind(this)}>Close</Button>
                         <div id="inputarea">
@@ -162,6 +164,8 @@ App.propTypes = {
  
 export default createContainer(() => {
     return {
+        //customized filter by user's prefered option
+        //topics: Topics.find({tags:{$elemMatch:{$regex:/ff|boo/}}}, { sort: { seconded: -1 } }).fetch(),
         topics: Topics.find({}, { sort: { seconded: -1 } }).fetch(),
         topics_time: Topics.find({}, { sort: { raisedAt: -1 } }).fetch(),
         currentUser: Meteor.user(),
