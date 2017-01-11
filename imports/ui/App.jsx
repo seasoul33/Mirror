@@ -16,7 +16,7 @@ import Switch from 'react-toggle-switch';
 class App extends Component {
     constructor() {
         super();
-        this.state = {tags:[], sort_by_time:false, showModal:false, topic:{}};
+        this.state = {tags:[], sort_by_time:true, showModal:false, topic:{}};
     }
 
     getTopicsIncludeTags(sourceTopics, targetTags, blur) {
