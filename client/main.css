@@ -30,7 +30,8 @@ body {
 }
  
 .container-topic {
-    max-width: 600px;
+    width: 75%;
+    /*width: 600px;*/
     /*margin: 0 auto;*/
     margin-bottom: 1em;
     padding-bottom: 1em;
@@ -40,7 +41,8 @@ body {
 }
 
 .container-toolbar {
-    max-width: 200px;
+    width: 25%;
+    /*max-width: 200px;*/
     /*margin: 0 auto;*/
     /*margin-bottom: 1em;*/
     padding-bottom: 1em;

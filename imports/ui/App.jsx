@@ -128,20 +128,20 @@ class App extends Component {
                     <AccountsUIWrapper />
                 </header>
 
-                <div className="container-toolbar">
+                <span className="container-toolbar">
                     <div className="searchbox">
                         Search the tag...
                         <input type="text" placeholder="" onChange={this.searchtag.bind(this)} />
                     </div>
                     <br/>
                     <Button className="forminvokeButton" bsStyle="primary" bsSize="xsmall" onClick={this.openModal.bind(this)}>舉手發問</Button>
-                </div>
+                </span>
      
-                <div className="container-topic">
+                <span className="container-topic">
                         <ul>
                             {this.renderTopics()}
                         </ul>
-                </div>
+                </span>
 
                 <Modal show={this.state.showModal} onHide={this.closeModal.bind(this)}>
                     <Modal.Body>
