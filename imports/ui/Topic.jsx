@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { Badge, Button, Tooltip, Popover, OverlayTrigger } from 'react-bootstrap';
+import { Badge, Button, Modal, Label, Panel } from 'react-bootstrap';
+// import { Tooltip, Popover, OverlayTrigger } from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 import TagsInput from 'react-tagsinput'
@@ -9,6 +10,19 @@ import Form from './Form.jsx';
  
 // Topic component - represents a single topic item
 export default class Topic extends Component {
+    constructor() {
+        super();
+        this.state = {showModal:false};
+    }
+
+    openModal() {
+        this.setState({showModal:true});
+    }
+
+    closeModal() {
+        this.setState({showModal:false});
+    }
+
     secondthistopic() {
   		if(this.props.username === 'admin') {
             this.props.selecttopic(this.props.topic);
@@ -96,21 +110,53 @@ export default class Topic extends Component {
     }
     
     renderDetail() {
-        const timestring = '' + this.props.topic.raisedAt;
-        const tooltip = (<Tooltip id={'tip'+this.props.topic._id}>{this.props.topic.description} - {timestring}</Tooltip>);
-        const popover = (<Popover id={'pop'+this.props.topic._id} title={'回應 ('+this.props.topic.repliedTime+')'}>{this.props.topic.anwser}</Popover>);
-        if(this.props.topic.replied === 0) {
-            return (<OverlayTrigger overlay={tooltip} placement="top">
-                        <strong>{this.props.topic.title}</strong>
-                    </OverlayTrigger>);
+        const opentimestring = moment(Date.parse(this.props.topic.raisedAt)).format('lll');
+        const replytimestring = moment(Date.parse(this.props.topic.repliedTime)).format('lll');
+        let replyPanel;
+        // dangerous usage...
+        const descPanel = (<Panel header="Description"><div dangerouslySetInnerHTML={{__html:this.props.topic.description.replace(/\n/g, '<br/>')}} /></Panel>);
+        
+        // const tooltip = (<Tooltip id={'tip'+this.props.topic._id}>{this.props.topic.description} - {opentimestring}</Tooltip>);
+        // const popover = (<Popover id={'pop'+this.props.topic._id} title={'回應 ('+replytimestring+')'}>{this.props.topic.anwser}</Popover>);
+        // if(this.props.topic.replied === 0) {
+        //     return (<div className="detail">
+        //                 <OverlayTrigger overlay={tooltip} placement="top">
+        //                     <strong>{this.props.topic.title}</strong>
+        //                 </OverlayTrigger>
+        //             </div>);
+        // }
+        // else {
+        //     return (<div className="detail">
+        //                 <OverlayTrigger overlay={popover} placement="bottom">
+        //                     <OverlayTrigger overlay={tooltip} placement="top">
+        //                         <strong>{this.props.topic.title}</strong>
+        //                     </OverlayTrigger>
+        //                 </OverlayTrigger>
+        //             </div>);
+        // }
+
+        if(this.props.topic.replied === 1) {
+            // dangerous usage...
+            replyPanel = (<Panel header={"Reply (replied at "+replytimestring+")"}><div dangerouslySetInnerHTML={{__html:this.props.topic.anwser.replace(/\n/g, '<br/>')}} /></Panel>);
         }
         else {
-            return (<OverlayTrigger overlay={popover} placement="bottom">
-                        <OverlayTrigger overlay={tooltip} placement="top">
-                            <strong>{this.props.topic.title}</strong>
-                        </OverlayTrigger>
-                    </OverlayTrigger>);
+            replyPanel = '';
         }
+        return (<div className="detail">
+                    <Button className="forminvokeButton" bsStyle="warning" bsSize="xsmall" title="Click to see detail..."
+                            onClick={this.openModal.bind(this)}>
+                        {this.props.topic.title}
+                    </Button>
+                    <Modal show={this.state.showModal} onHide={this.closeModal.bind(this)}>
+                        <Modal.Body>
+                            <Button className="closeModal" bsSize="xsmall" onClick={this.closeModal.bind(this)}>Close</Button>
+                            <Panel header={"Title (created at "+opentimestring+")"}>{this.props.topic.title}</Panel>
+                            {descPanel}
+                            {replyPanel}
+                            {this.renderInfor()}
+                        </Modal.Body>
+                    </Modal>
+                </div>);
     }
 
     renderStatistic() {
@@ -199,20 +245,23 @@ export default class Topic extends Component {
         }
     }
 
+    renderInfor () {
+        return (<div>
+                    {this.renderStatistic()}
+                    {this.renderTags()}
+                    
+                    <span className="buttongroup">
+                        {this.renderStatusButton()}
+                        {this.renderAction()}
+                    </span>
+                </div>);
+    }
+
     render() {
         return (
             <li>
-                <div className="detail">
-                    {this.renderDetail()}
-                </div>
-
-                {this.renderStatistic()}
-                {this.renderTags()}
-                
-                <span className="buttongroup">
-                    {this.renderStatusButton()}
-                    {this.renderAction()}
-                </span>
+                {this.renderDetail()}
+                {this.renderInfor()}
       		</li>
     	);
   	}

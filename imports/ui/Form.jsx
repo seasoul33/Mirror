@@ -73,11 +73,9 @@ export default class Form extends Component {
                         <label>標題:{this.props.topic.title}</label><br/><br/>
                         <label>描述:{this.props.topic.description}</label><br/><br/>
                         回答:<br/>
-                        <textarea
-                            type="text"
-                            ref="replyInput"
-                            placeholder="Type to give reply"
-                        /><br/>
+                        <textarea type="text" ref="replyInput" placeholder="Type to give reply">
+                            {this.props.topic.anwser}
+                        </textarea><br/>
                         <button className="new-button" type="button" onClick={this.handleSubmit.bind(this)}>送出回應</button>
                     </form>
                 </div>
