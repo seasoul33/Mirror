@@ -1,4 +1,4 @@
-# WantedBoard
+# Mirror
 This simple system is used in any group to let members throw their questions/doubts and ask feedback from the management level.
 (It is inspired by and similar with Google's Dory system.)
 
